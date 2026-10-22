@@ -1,0 +1,54 @@
+# Environment
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Derived data (regenerable from dataset/ via the preprocessing pipeline)
+data/processed/
+data/splits/
+data/reference/
+
+# Experiment outputs — checkpoints/samples are expensive; never auto-wiped, but not version-controlled
+experiments/checkpoints/
+experiments/samples/
+experiments/logs/
+experiments/results/
+wandb/
+
+# Keep the empty dirs tracked
+!**/.gitkeep
+
+# Raw dataset is large; track structure, not the JPEGs
+dataset/ADC/*
+dataset/SCC/*
+dataset/lunghist700_original/
+!dataset/ADC/.gitkeep
+!dataset/SCC/.gitkeep
+
+# LaTeX build artifacts (keep paper.tex, references.bib, paper.pdf, figures)
+reports/**/*.aux
+reports/**/*.bbl
+reports/**/*.blg
+reports/**/*.fdb_latexmk
+reports/**/*.fls
+reports/**/*.log
+reports/**/*.out
+
+# OS / editor
+.DS_Store
+*.swp
+
+# Packaged release archives (scripts/package_release.py)
+release/
+
+# Cloud runs: model and pip caches, code tarball, results archives
+.cache/
+cytodiff_code.tar.gz
+cytodiff_v2_results_*.tar.gz
+
+# v1 (image-level split) outputs kept for reference
+experiments_v1_imagesplit/
+outputs/logs_v1_imagesplit/

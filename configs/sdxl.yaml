@@ -1,0 +1,35 @@
+# SDXL — LoRA fine-tuning config
+# NOTE: does NOT fit the local RTX 2080 (8 GB) even with memory savings. Run on a 24 GB+ cloud GPU.
+model:
+  name: sdxl
+  pretrained: stabilityai/stable-diffusion-xl-base-1.0
+  native_resolution: 1024            # v2: latents from the original 1200 px crops, not an upscale
+  sampler: ddim
+
+lora:
+  rank: 8
+  alpha: 8
+  dropout: 0.1
+  target_modules: [to_q, to_k, to_v, to_out.0]
+
+training:
+  optimizer: adamw
+  weight_decay: 0.01
+  learning_rate: 1.0e-4
+  lr_scheduler: cosine
+  warmup_steps: 100
+  train_batch_size: 1
+  gradient_accumulation_steps: 4
+  seed: 0                          # LoRA init, data order, noise (v1 was unseeded)
+  max_train_steps: 10000
+  mixed_precision: bf16
+  conditioning_dropout: 0.1
+  gradient_checkpointing: true       # memory saving
+  use_8bit_adam: false               # v2: plain AdamW for every model (LoRA optimizer state is small)
+
+hardware:
+  fits_local_8gb: false              # stage to cloud (24 GB+)
+
+data:
+  cache_latents: true            # encode images to VAE latents once (stage 1d) — key for 8 GB fit
+  cache_text_embeddings: true    # encode the 2 class captions once

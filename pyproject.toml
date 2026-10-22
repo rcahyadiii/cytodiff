@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cytodiff"
+version = "0.1.0"
+description = "Comparison of four Stable Diffusion backbones with and without LoRA fine-tuning for synthetic ADC/SCC H&E lung histopathology (LungHist700); generated images are for research only."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Muhammad Ridwan Cahyadi" }, { name = "Rifki Wijaya" }]
+license = { text = "MIT" }
+
+# Runtime deps are managed via requirements.txt (PyTorch needs a custom CUDA index),
+# so the package itself declares none here to avoid resolver conflicts.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

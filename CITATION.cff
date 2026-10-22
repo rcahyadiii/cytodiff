@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it."
+title: "A Comparison of Stable Diffusion Backbones With and Without LoRA Fine-Tuning for Synthetic H&E Lung Cancer Histopathology"
+authors:
+  - family-names: Cahyadi
+    given-names: Muhammad Ridwan
+  - family-names: Wijaya
+    given-names: Rifki
+repository-code: "https://github.com/rcahyadiii/cytodiff"
+doi: "10.5281/zenodo.23520698"

@@ -1,0 +1,42 @@
+# CytoDiff dependencies
+# PyTorch is installed separately from the CUDA 13.0 wheel index (see scripts/setup_env.sh / README).
+# Pins reflect the verified-working stack on RTX 2080 (Turing, cc 7.5), driver 580, CUDA 13.0, Python 3.12.
+
+# --- Diffusion + fine-tuning ---
+diffusers==0.38.0
+transformers==5.8.0
+accelerate==1.13.0
+peft==0.19.1
+safetensors
+sentencepiece
+
+# --- Data / preprocessing ---
+datasets==4.8.5
+opencv-python==4.13.0.90
+scikit-image==0.26.0
+Pillow
+numpy
+scipy                 # FID matrix square root (cytodiff.eval.metrics)
+pandas
+
+# --- Evaluation (FID / KID) ---
+torchmetrics==1.9.0
+torch-fidelity        # required by torchmetrics FID/KID
+timm                  # UNI pathology foundation model (feature extractor)
+scikit-learn          # linear-probe label check (scripts/label_check.py)
+lpips                 # memorization and VAE reconstruction (LPIPS distance)
+clean-fid==0.1.35
+
+# --- Memory savings for SDXL / SD 3 (8-bit AdamW) ---
+bitsandbytes
+
+# --- Experiment tracking + utilities ---
+wandb==0.27.2
+tensorboard
+pyyaml==6.0.3
+tqdm
+matplotlib
+
+# NOTE: xformers is intentionally NOT pinned/installed. The available wheel does not load
+# against torch 2.11+cu130 / Python 3.12; diffusers falls back to native SDPA, which is
+# equivalent here. Do not call pipe.enable_xformers_memory_efficient_attention().

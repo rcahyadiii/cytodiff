@@ -1,0 +1,39 @@
+# Stable Diffusion v2.1 — LoRA fine-tuning config
+# NOTE: Stability AI removed the official stabilityai/stable-diffusion-2-1 repo
+# from Hugging Face (verified 2026-07-16, returns RepositoryNotFound). Using a
+# community diffusers mirror of the identical OpenRAIL++-licensed weights.
+# Document this substitution in the report §3.4.1.
+model:
+  name: sd21
+  pretrained: SfinOe/stable-diffusion-v2-1
+  native_resolution: 768
+  sampler: ddim
+
+lora:
+  rank: 8
+  alpha: 8
+  dropout: 0.1
+  target_modules: [to_q, to_k, to_v, to_out.0]
+
+training:
+  optimizer: adamw
+  weight_decay: 0.01
+  learning_rate: 1.0e-4
+  lr_scheduler: cosine
+  warmup_steps: 100
+  train_batch_size: 1
+  gradient_accumulation_steps: 4
+  seed: 0                          # LoRA init, data order, noise (v1 was unseeded)
+  max_train_steps: 10000
+  mixed_precision: bf16
+  conditioning_dropout: 0.1
+  gradient_checkpointing: false
+  use_8bit_adam: false
+  balanced_sampling: true          # oversample SCC, same as sd15 headline run
+
+hardware:
+  fits_local_8gb: true
+
+data:
+  cache_latents: true            # encode images to VAE latents once (stage 1d) — key for 8 GB fit
+  cache_text_embeddings: true    # encode the 2 class captions once
