@@ -1,6 +1,6 @@
 # Stable Diffusion 3 (MMDiT, flow-matching) — LoRA fine-tuning config
 # NOTE: does NOT fit the local RTX 2080 (8 GB). Run on a 24 GB+ cloud GPU.
-# Uses the library's native flow-matching loss instead of epsilon-prediction (proposal §3.4.4).
+# Uses the library's native flow-matching loss instead of epsilon-prediction.
 model:
   name: sd3
   pretrained: stabilityai/stable-diffusion-3-medium-diffusers

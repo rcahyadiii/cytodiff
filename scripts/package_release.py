@@ -210,14 +210,14 @@ def citation(anonymous: bool, github: str) -> str:
 
 
 def code_files() -> list[Path]:
-    """Public code: src/, scripts/, configs/ and the top-level docs, without internal or v1-only files."""
+    """Public code: src/, scripts/, configs/, tests/ and the top-level docs, without internal or v1-only files."""
     skip = {"scripts/.gitkeep", "scripts/make_progress_slides.py", "scripts/make_seminar_slides.py",
             "scripts/make_compare_4models.py"}
-    code = [p for d in ("src", "scripts", "configs") for p in (ROOT / d).rglob("*")
+    code = [p for d in ("src", "scripts", "configs", "tests") for p in (ROOT / d).rglob("*")
             if p.is_file() and "__pycache__" not in p.parts and ".egg-info" not in str(p)
             and "legacy_runs" not in p.parts and str(p.relative_to(ROOT)) not in skip]
-    return code + [ROOT / f for f in ("pyproject.toml", "requirements.txt", "README.md", "RERUN.md", "LICENSE",
-                                      ".gitignore")]
+    return code + [ROOT / f for f in ("pyproject.toml", "requirements.txt", "requirements-lock.txt", "README.md",
+                                      "RERUN.md", "LICENSE", ".gitignore")]
 
 
 def main() -> None:

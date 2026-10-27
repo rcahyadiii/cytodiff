@@ -1,6 +1,6 @@
 """CytoDiff: educational synthetic ADC/SCC H&E lung histopathology generation (LungHist700).
 
-Pipeline stages (proposal Ch. III) map to subpackages:
+Pipeline stages map to subpackages:
     data          - standardization, patient/patch split, captioning  (stage 1)
     train         - LoRA fine-tuning of SD v1.5 / v2.1 / SDXL / SD 3   (stage 3)
     generate      - inference + CFG sweep                              (stage 4)

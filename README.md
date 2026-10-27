@@ -24,11 +24,13 @@ scale, with 95 % normal bootstrap interval (patients resampled). Real training v
 | SD v1.5 | 2 | 0.115 (0.105 to 0.126) | 0.233 |
 | SDXL | 3 | 0.213 (0.199 to 0.227) | 0.256 |
 
-- SD 3 is better than every other model in every paired bootstrap comparison on Inception, UNI, and Phikon
-  features, and better than the runner-up with each of three training seeds.
+- SD 3 is closest in distribution to the held-out patients: lower KID than every other model in every paired
+  bootstrap comparison on Inception, UNI, and Phikon features, and lower than the runner-up with each of three
+  training seeds. With 6 to 8 held-out patients per class and one split, these intervals are approximate.
 - LoRA improves every backbone; SD 3 gains its lead only through adaptation, together with a 16-channel
   autoencoder that reconstructs histology far better (LPIPS 0.040 vs. 0.103 to 0.111).
-- No generated image copies a training image.
+- No near-duplicate of a training image was found: the 13 generated images closer to a training image than any
+  held-out image (7 SD 3, 6 SD v1.5) were inspected and share stain and tissue type, not layout (SSIM <= 0.52).
 - At the KID-optimal guidance (1.5), SD 3 images are only weakly class-specific (UNI probe 59 % vs. 90 % on
   real images); guidance 3 to 5 gives 74 to 80 % at a KID still below every other model's best.
 
@@ -55,7 +57,9 @@ source venv/bin/activate
 ```
 
 Python 3.12 with diffusers 0.38, peft 0.19, transformers 5.8, accelerate 1.13, torchmetrics 1.9. The study
-ran on one NVIDIA A40 (48 GB) with torch 2.14.1+cu130; `scripts/cloud/README.md` sets up a cloud GPU
+ran on one NVIDIA A40 (48 GB) with torch 2.14.1+cu130; `requirements-lock.txt` is the complete environment of
+that machine (pip freeze), and `PYTHONPATH=src python -m pytest tests` checks KID and FD against direct
+formulas, scipy, and torchmetrics; `scripts/cloud/README.md` sets up a cloud GPU
 (24 GB or more). Evaluation also runs on Apple MPS or CPU. SD 3 Medium and the UNI feature extractor are
 gated on Hugging Face and need an accepted license and a token.
 
@@ -84,6 +88,7 @@ builds the Zenodo dataset card from the result tables.
 src/cytodiff/      package (pip install -e .): data, train (LoRA), generate, eval (KID, FD, PRDC), colortransfer
 scripts/           command-line entry points; scripts/cloud/ runs the whole pipeline on a GPU box
 configs/           per-model settings: sd15, sd21, sdxl, sd3
+tests/             metric checks (KID, FD) against independent implementations
 ```
 
 ## Citation and license

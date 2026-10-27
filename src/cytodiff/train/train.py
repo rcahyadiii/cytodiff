@@ -1,4 +1,4 @@
-"""Stage 3 — LoRA fine-tuning loop for all four families (proposal §3.4).
+"""Stage 3: LoRA fine-tuning loop for all four model families.
 
 Trains on cached latents/embeddings. Denoiser + objective dispatch on model family:
     unet_single (sd15/sd21) : add_noise, epsilon or v-prediction MSE.

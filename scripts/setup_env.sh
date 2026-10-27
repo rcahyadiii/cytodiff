@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Reproducible environment setup for CytoDiff.
 # Creates venv/, installs PyTorch (CUDA 13.0 wheels), the pinned stack, and the package (editable).
-# Verified on: RTX 2080 (Turing, cc 7.5), driver 580, CUDA 13.0, Python 3.12.
+# Verified on: RTX 2080 (local, CUDA 13.0) and NVIDIA A40 (the v2 study; exact versions in
+# requirements-lock.txt), Python 3.12.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

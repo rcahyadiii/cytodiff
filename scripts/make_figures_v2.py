@@ -43,14 +43,15 @@ def fig_cfg() -> None:
     for m, name in MODELS.items():
         lora, zs = macro(m), macro(f"{m}_zeroshot")
         a.plot(lora.index, lora.values, "-o", ms=2.5, lw=1.1, color=COLORS[m], label=f"{name} LoRA")
-        a.plot(zs.index, zs.values, "--", lw=0.9, color=COLORS[m], alpha=0.75, label=f"{name} zero-shot")
+        a.plot(zs.index, zs.values, ls=(0, (3, 1.5)), marker="x", ms=3, mew=0.8, lw=0.9, color=COLORS[m],
+               alpha=0.85, label=f"{name} zero-shot")
         best = best_cfg_of(m)
         a.plot([best], [lora[best]], "*", ms=8, color=COLORS[m], mec="black", mew=0.4)
     a.axhline(real_kid, color="black", ls=":", lw=0.9, label="real vs. real")
     a.set(xscale="log", yscale="log", xlabel="Guidance scale", ylabel="Macro KID (Inception)")
     a.set_xticks(TICKS, [f"{t:g}" for t in TICKS]); a.minorticks_off()
     a.set_title("(a) Distribution distance (lower is better)", fontsize=8)
-    a.legend(fontsize=5.6, ncol=2, frameon=False, loc="lower right")
+    a.legend(fontsize=6, ncol=2, frameon=False, loc="lower right", handlelength=2.6)
 
     lab = pd.read_csv(RESULTS_DIR / "label_vs_cfg.csv")
     lab = lab[lab["backbone"] == "uni"]
@@ -65,7 +66,7 @@ def fig_cfg() -> None:
     b.set(xscale="log", xlabel="Guidance scale", ylabel="Probe accuracy on generated images", ylim=(0.4, 1.02))
     b.set_xticks(TICKS, [f"{t:g}" for t in TICKS]); b.minorticks_off()
     b.set_title("(b) Label fidelity of LoRA models (higher is better)", fontsize=8)
-    b.legend(fontsize=5.6, frameon=False, loc="lower right", ncol=2)
+    b.legend(fontsize=6, frameon=False, loc="lower right", ncol=2)
     fig.savefig(OUT / "fig_cfg_v2.pdf")
     print("  wrote", OUT / "fig_cfg_v2.pdf")
 

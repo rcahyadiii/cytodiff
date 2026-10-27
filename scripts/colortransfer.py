@@ -2,7 +2,7 @@
 """Stage 6 CLI — apply histogram-matching colour transfer to a model's generated samples.
 
 Writes a new sample tree named <model>_ct_<space> that scripts/evaluate.py can score directly,
-so you get a clean before/after FID/KID comparison (proposal §3.7 / §3.8).
+so you get a clean before/after FID/KID comparison.
 
 Usage:
     venv/bin/python scripts/colortransfer.py --model sd15 --cfg 5 --space rgb

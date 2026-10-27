@@ -1,4 +1,4 @@
-"""Stage 1a — image standardization (proposal §3.2.2).
+"""Stage 1a: image standardization.
 
 Raw JPEGs (~2560x2048) -> center-cropped square -> 512x512 RGB master copy (lossless PNG).
 Per-model upscaling (e.g. 1024 for SDXL) happens at train time from this master, so all

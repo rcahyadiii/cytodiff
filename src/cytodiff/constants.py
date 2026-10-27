@@ -1,4 +1,4 @@
-"""Shared constants grounded in the proposal — single source of truth across stages."""
+"""Shared constants, the single source of truth across pipeline stages."""
 
 import os
 from pathlib import Path
@@ -25,13 +25,13 @@ CLASS_LABELS = {
     "SCC": "Hematoxylin and eosin stained lung squamous cell carcinoma histopathology, keratinizing malignant epithelial nests, photomicrograph, microscope view.",
 }
 
-# Shared negative prompt at inference (proposal §3.3.2).
+# Shared negative prompt at inference.
 NEGATIVE_PROMPT = (
     "blurry, low resolution, distorted nuclei, unrealistic colors, "
     "text overlay, frame, watermark"
 )
 
-# --- Master preprocessing target (proposal §3.2.2) ---
+# --- Master preprocessing target ---
 MASTER_RESOLUTION = 512          # 512x512 master: evaluation resolution for every model
 # v2: each model trains and generates at its pretraining resolution; training images at 768/1024
 # are made from the original 1200x1200 crops (never upscaled from the 512 master).
@@ -55,7 +55,7 @@ def model_family(name: str) -> str:
     except KeyError:
         raise ValueError(f"unknown model name {name!r}; add it to MODEL_FAMILY") from None
 
-# --- Generation (proposal §3.5) ---
+# --- Generation ---
 CFG_SWEEP = (1.5, 2, 3, 4, 5, 7.5, 10, 15, 20)   # v1 used 5..20; its optimum (5) sat on the grid edge
 INFERENCE_STEPS = 50
 FINAL_TARGET_PER_CLASS = 2000

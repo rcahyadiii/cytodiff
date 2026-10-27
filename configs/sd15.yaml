@@ -7,13 +7,13 @@ model:
   native_resolution: 512
   sampler: ddim
 
-lora:                       # proposal Table 3.3 — identical across all 4 models
+lora:                       # identical across all 4 models
   rank: 8                   # baseline; ablate {4, 16, 32}
   alpha: 8                  # alpha == r  (effective alpha/r = 1)
   dropout: 0.1
   target_modules: [to_q, to_k, to_v, to_out.0]
 
-training:                   # proposal Table 3.4
+training:                   # shared by all 4 models
   optimizer: adamw
   weight_decay: 0.01
   learning_rate: 1.0e-4
@@ -22,14 +22,14 @@ training:                   # proposal Table 3.4
   train_batch_size: 1
   gradient_accumulation_steps: 4    # effective batch 4
   seed: 0                          # LoRA init, data order, noise (v1 was unseeded)
-  max_train_steps: 10000            # range 5000-10000, early-stop on val FID
+  max_train_steps: 10000            # fixed; the final checkpoint is used (no early stopping)
   mixed_precision: bf16
   conditioning_dropout: 0.1         # enables CFG
   gradient_checkpointing: false
   use_8bit_adam: false
 
 hardware:
-  fits_local_8gb: true              # RTX 2080 OK (fp16 + SDPA + LoRA)
+  fits_local_8gb: true              # fits an 8 GB GPU such as an RTX 2080 (local runs)
 
 data:
   cache_latents: true            # encode images to VAE latents once (stage 1d) — key for 8 GB fit

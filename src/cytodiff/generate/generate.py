@@ -1,4 +1,4 @@
-"""Stage 4a — synthetic image generation across the CFG sweep (proposal §3.5).
+"""Stage 4a: synthetic image generation across the guidance sweep.
 
 For each class and each guidance scale, generate N images at the model's native (training)
 resolution and save them to experiments/samples/<run>/cfg_<w>/<class>/<class>_<idx>.png.

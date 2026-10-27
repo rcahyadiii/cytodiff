@@ -1,42 +1,44 @@
 # CytoDiff dependencies
 # PyTorch is installed separately from the CUDA 13.0 wheel index (see scripts/setup_env.sh / README).
-# Pins reflect the verified-working stack on RTX 2080 (Turing, cc 7.5), driver 580, CUDA 13.0, Python 3.12.
+# Main pins of the v2 study (NVIDIA A40, torch 2.14.1+cu130, Python 3.12.3). requirements-lock.txt holds the
+# complete environment (pip freeze) of that machine.
 
 # --- Diffusion + fine-tuning ---
 diffusers==0.38.0
 transformers==5.8.0
 accelerate==1.13.0
 peft==0.19.1
-safetensors
-sentencepiece
+safetensors==0.9.0rc1
+sentencepiece==0.2.2
 
 # --- Data / preprocessing ---
 datasets==4.8.5
 opencv-python==4.13.0.90
 scikit-image==0.26.0
-Pillow
-numpy
-scipy                 # FID matrix square root (cytodiff.eval.metrics)
-pandas
+Pillow==12.3.0
+numpy==2.5.2
+scipy==1.18.1         # FID matrix square root (cytodiff.eval.metrics)
+pandas==3.0.6
 
 # --- Evaluation (FID / KID) ---
 torchmetrics==1.9.0
-torch-fidelity        # required by torchmetrics FID/KID
-timm                  # UNI pathology foundation model (feature extractor)
-scikit-learn          # linear-probe label check (scripts/label_check.py)
-lpips                 # memorization and VAE reconstruction (LPIPS distance)
+torch-fidelity==0.4.0 # required by torchmetrics FID/KID
+timm==1.0.30          # UNI pathology foundation model (feature extractor)
+scikit-learn==1.9.1   # linear-probe label check (scripts/label_check.py)
+lpips==0.1.4          # memorization and VAE reconstruction (LPIPS distance)
 clean-fid==0.1.35
 
 # --- Memory savings for SDXL / SD 3 (8-bit AdamW) ---
-bitsandbytes
+bitsandbytes==0.50.2
 
-# --- Experiment tracking + utilities ---
-wandb==0.27.2
-tensorboard
+# --- Utilities ---
 pyyaml==6.0.3
-tqdm
-matplotlib
+tqdm==4.70.1
+matplotlib==3.11.2
+
+# --- Tests (tests/test_metrics.py) ---
+pytest
 
 # NOTE: xformers is intentionally NOT pinned/installed. The available wheel does not load
-# against torch 2.11+cu130 / Python 3.12; diffusers falls back to native SDPA, which is
+# against torch 2.11 to 2.14 (cu130) / Python 3.12; diffusers falls back to native SDPA, which is
 # equivalent here. Do not call pipe.enable_xformers_memory_efficient_attention().

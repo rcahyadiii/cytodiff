@@ -1,4 +1,4 @@
-"""Stage 4 qualitative evaluation — real vs. synthetic comparison grids (proposal §3.8.2).
+"""Stage 4 qualitative evaluation: real vs. synthetic comparison grids.
 
 Builds a per-class figure: top rows = real eval images, bottom rows = synthetic images from the
 chosen model/CFG. Saved to experiments/results/. Selection is seeded for reproducibility.

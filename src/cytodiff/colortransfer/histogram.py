@@ -1,4 +1,4 @@
-"""Stage 6 — histogram-matching color transfer (proposal §3.7).
+"""Stage 6: histogram-matching color transfer.
 
 Per-channel CDF matching of each generated image to a class-matched REAL reference, to pull the
 synthetic palette back toward the authentic H&E staining. Two colour spaces are offered

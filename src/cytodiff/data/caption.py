@@ -1,4 +1,4 @@
-"""Stage 1c — captioning (proposal §3.3.1).
+"""Stage 1c: captioning.
 
 A single fixed per-class label is used for all four models so the comparison isolates the
 base architecture. This module is the one place prompt content lives, so the prompt-variant

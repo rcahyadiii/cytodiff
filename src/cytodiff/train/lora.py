@@ -1,6 +1,6 @@
 """Denoiser loading, LoRA injection, and adapter saving across all four families.
 
-Base denoiser is frozen; LoRA adapters go into the attention projections (proposal §3.4.2) and are
+Base denoiser is frozen; LoRA adapters go into the attention projections and are
 cast to fp32 for stable optimization. VAE + text encoders are NOT loaded here — their outputs come
 from the stage-1d cache.
 
