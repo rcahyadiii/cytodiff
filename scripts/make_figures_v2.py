@@ -18,6 +18,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import pandas as pd
 from PIL import Image
 
@@ -51,7 +52,12 @@ def fig_cfg() -> None:
     a.set(xscale="log", yscale="log", xlabel="Guidance scale", ylabel="Macro KID (Inception)")
     a.set_xticks(TICKS, [f"{t:g}" for t in TICKS]); a.minorticks_off()
     a.set_title("(a) Distribution distance (lower is better)", fontsize=8)
-    a.legend(fontsize=6, ncol=2, frameon=False, loc="lower right", handlelength=2.6)
+    # line styles only; the model colors are in the legend of panel (b)
+    styles = [Line2D([], [], color="0.25", ls="-", marker="o", ms=2.5, lw=1.1, label="LoRA"),
+              Line2D([], [], color="0.25", ls=(0, (3, 1.5)), marker="x", ms=3, mew=0.8, lw=0.9, label="zero-shot"),
+              Line2D([], [], color="0.25", ls="", marker="*", ms=7, mec="black", mew=0.4, label="best scale"),
+              Line2D([], [], color="black", ls=":", lw=0.9, label="real vs. real")]
+    a.legend(handles=styles, fontsize=6, frameon=False, loc="lower right", bbox_to_anchor=(1.0, 0.05), handlelength=2.6)
 
     lab = pd.read_csv(RESULTS_DIR / "label_vs_cfg.csv")
     lab = lab[lab["backbone"] == "uni"]
@@ -63,10 +69,10 @@ def fig_cfg() -> None:
         b.fill_between(d["cfg"], d["acc_ci_low"], d["acc_ci_high"], color=COLORS[m], alpha=0.12, lw=0)
     b.axhline(real_acc, color="black", ls=":", lw=0.9, label="held-out real images")
     b.axhline(0.5, color="gray", ls="-", lw=0.5, label="chance")
-    b.set(xscale="log", xlabel="Guidance scale", ylabel="Probe accuracy on generated images", ylim=(0.4, 1.02))
+    b.set(xscale="log", xlabel="Guidance scale", ylabel="Probe accuracy on generated images", ylim=(0.25, 1.02))
     b.set_xticks(TICKS, [f"{t:g}" for t in TICKS]); b.minorticks_off()
     b.set_title("(b) Label fidelity of LoRA models (higher is better)", fontsize=8)
-    b.legend(fontsize=6, frameon=False, loc="lower right", ncol=2)
+    b.legend(fontsize=6, frameon=False, loc="lower right", ncol=3)   # below the chance line, clear of the data
     fig.savefig(OUT / "fig_cfg_v2.pdf")
     print("  wrote", OUT / "fig_cfg_v2.pdf")
 

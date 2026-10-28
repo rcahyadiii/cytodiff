@@ -30,7 +30,7 @@ scale, with 95 % normal bootstrap interval (patients resampled). Real training v
 - LoRA improves every backbone; SD 3 gains its lead only through adaptation, together with a 16-channel
   autoencoder that reconstructs histology far better (LPIPS 0.040 vs. 0.103 to 0.111).
 - No near-duplicate of a training image was found: the 13 generated images closer to a training image than any
-  held-out image (7 SD 3, 6 SD v1.5) were inspected and share stain and tissue type, not layout (SSIM <= 0.52).
+  held-out image (7 SD 3, 6 SD v1.5) were inspected and share stain and tissue type, not layout (SSIM <= 0.40).
 - At the KID-optimal guidance (1.5), SD 3 images are only weakly class-specific (UNI probe 59 % vs. 90 % on
   real images); guidance 3 to 5 gives 74 to 80 % at a KID still below every other model's best.
 
@@ -79,7 +79,8 @@ venv/bin/python scripts/compare_models.py --models sd15 sd21 sdxl sd3
 venv/bin/python scripts/colortransfer.py --model sd3 --cfg 1.5 --space rgb
 ```
 
-`RERUN.md` describes the full v2 protocol and how the results are unpacked; `scripts/package_release.py`
+`docs/paper_numbers.md` lists every number quoted in the text of the paper with its source
+(`scripts/paper_numbers.py` regenerates it). `RERUN.md` describes the full v2 protocol and how the results are unpacked; `scripts/package_release.py`
 builds the Zenodo dataset card from the result tables.
 
 ## Layout
