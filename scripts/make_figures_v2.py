@@ -6,8 +6,9 @@
                    runs (UNI linear probe trained on real images) across guidance scales.
   fig_qual_v2.jpg  held-out real images and the first two generated images per class of each
                    model (not hand-picked): SD 3 zero-shot, the four LoRA models at their best
-                   scale, and SD 3 at guidance 3 (paper_v2_long.tex).
-  fig_qual_v2_short.jpg  the same with one image per class (paper_v2.tex, 8 pages).
+                   scale, and SD 3 at guidance 3, each labeled with its Inception macro KID
+                   (paper_v2.tex, paper_v2_anon.tex, paper_v2_long.tex).
+  fig_qual_v2_short.jpg  the same with one image per class (paper_v2_8page.tex).
 
 Usage: python scripts/make_figures_v2.py
 """
@@ -37,10 +38,15 @@ def macro(run: str, backbone: str = "inception") -> pd.Series:
     return d[(d["class"] == "macro") & (d["backbone"] == backbone)].set_index("cfg")["kid"].sort_index()
 
 
+def real_macro_kid(backbone: str = "inception") -> float:
+    """Macro KID of the real training images against the held-out ones (real-versus-real reference)."""
+    d = pd.read_csv(RESULTS_DIR / "baseline_real.csv")
+    return float(d[(d["class"] == "macro") & (d["backbone"] == backbone)]["kid"].iloc[0])
+
+
 def fig_cfg() -> None:
     fig, (a, b) = plt.subplots(1, 2, figsize=(7.16, 2.35), constrained_layout=True)
-    real = pd.read_csv(RESULTS_DIR / "baseline_real.csv")
-    real_kid = real[(real["class"] == "macro") & (real["backbone"] == "inception")]["kid"].iloc[0]
+    real_kid = real_macro_kid()
     for m, name in MODELS.items():
         lora, zs = macro(m), macro(f"{m}_zeroshot")
         a.plot(lora.index, lora.values, "-o", ms=2.5, lw=1.1, color=COLORS[m], label=f"{name} LoRA")
@@ -96,9 +102,13 @@ def fig_qual(real_paths: dict[str, list[str]], per_class: int = 2, name: str = "
             ax.set_xticks([]); ax.set_yticks([])
             for s in ax.spines.values():
                 s.set_visible(False)
-            if r == 0:
-                label = title if run is None else f"{title}\nCFG {cfg if cfg is not None else best_cfg_of(run):g}"
-                ax.set_title(label.replace(" LoRA, CFG 3", " LoRA"), fontsize=6.3, linespacing=1.1)
+            if r == 0:   # label: run, guidance scale, and Inception macro KID at that scale
+                if run is None:
+                    label = f"{title}\nKID {real_macro_kid():.3f}"
+                else:
+                    g = cfg if cfg is not None else best_cfg_of(run)
+                    label = f"{title}\nCFG {g:g}\nKID {macro(run)[g]:.3f}"
+                ax.set_title(label, fontsize=6.3, linespacing=1.1)
             if c == 0:
                 ax.set_ylabel(cls, fontsize=7)
     fig.savefig(OUT / name, dpi=300, bbox_inches="tight", pil_kwargs={"quality": 90})
