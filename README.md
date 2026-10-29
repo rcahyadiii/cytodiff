@@ -28,7 +28,7 @@ scale, with 95 % normal bootstrap interval (patients resampled). Real training v
   bootstrap comparison on Inception, UNI, and Phikon features, and lower than the runner-up with each of three
   training seeds. With 6 to 8 held-out patients per class and one split, these intervals are approximate.
 - LoRA improves every backbone; SD 3 gains its lead only through adaptation, together with a 16-channel
-  autoencoder that reconstructs histology far better (LPIPS 0.040 vs. 0.103 to 0.111).
+  autoencoder that reconstructs histology far better (LPIPS 0.040 vs. 0.103 to 0.110).
 - No near-duplicate of a training image was found: the 13 generated images closer to a training image than any
   held-out image (7 SD 3, 6 SD v1.5) were inspected and share stain and tissue type, not layout (SSIM <= 0.40).
 - At the KID-optimal guidance (1.5), SD 3 images are only weakly class-specific (UNI probe 59 % vs. 90 % on
