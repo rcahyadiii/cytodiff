@@ -4,6 +4,7 @@ title: "A Comparison of Stable Diffusion Backbones With and Without LoRA Fine-Tu
 authors:
   - family-names: Cahyadi
     given-names: Muhammad Ridwan
+    email: rcahyadi@student.telkomuniversity.ac.id
   - family-names: Wijaya
     given-names: Rifki
 repository-code: "https://github.com/rcahyadiii/cytodiff"

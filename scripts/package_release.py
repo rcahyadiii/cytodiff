@@ -35,7 +35,7 @@ OUT = ROOT / "release"
 TITLE = "A Comparison of Stable Diffusion Backbones With and Without LoRA Fine-Tuning for Synthetic H&E Lung Cancer Histopathology"
 DATASET_TITLE = ("Synthetic H&E lung adenocarcinoma and squamous cell carcinoma images from four Stable Diffusion "
                  "backbones, with and without LoRA fine-tuning (LungHist700)")
-AUTHORS = [("Cahyadi", "Muhammad Ridwan"), ("Wijaya", "Rifki")]
+AUTHORS = [("Cahyadi", "Muhammad Ridwan", "rcahyadi@student.telkomuniversity.ac.id"), ("Wijaya", "Rifki", "")]   # family, given, email
 ZENODO_DOI = "10.5281/zenodo.23520698"   # reserved on the draft record; resolves once it is published
 GITHUB_URL = "https://github.com/rcahyadiii/cytodiff"
 NAMES = {"sd15": "SD v1.5", "sd21": "SD v2.1", "sdxl": "SDXL", "sd3": "SD 3 Medium"}
@@ -121,7 +121,7 @@ def dataset_card(anonymous: bool, github: str) -> str:
     count_rows = "\n".join(f"| `{zip_name(r.run)}` | {r.group} | {NAMES.get(r.model, r.model)} | {r.cfgs} | {r.images:,} |"
                            for r in counts.sort_values(["group", "run"]).itertuples())
     models = "\n".join(f"| {NAMES[m]} | `{REPOS[m]}` | {RES[m]} | {BATCH[m]} |" for m in NAMES)
-    authors = "Anonymous" if anonymous else " and ".join(f"{g} {f}" for f, g in AUTHORS)
+    authors = "Anonymous" if anonymous else " and ".join(f"{g} {f}" for f, g, _ in AUTHORS)
     return f"""# {DATASET_TITLE}
 
 Companion data of the paper *{TITLE}* ({authors}). Dataset DOI: [{ZENODO_DOI}](https://doi.org/{ZENODO_DOI}).
@@ -203,7 +203,8 @@ redistributed. The terms of each generating model's license apply; see `LICENSES
 
 
 def citation(anonymous: bool, github: str) -> str:
-    authors = "" if anonymous else "".join(f"  - family-names: {f}\n    given-names: {g}\n" for f, g in AUTHORS)
+    authors = "" if anonymous else "".join(f"  - family-names: {f}\n    given-names: {g}\n" + (f"    email: {e}\n" if e else "")
+                                            for f, g, e in AUTHORS)
     return (f"cff-version: 1.2.0\nmessage: \"If you use this work, please cite it.\"\ntitle: \"{TITLE}\"\n"
             + (f"authors:\n{authors}" if authors else "authors:\n  - name: Anonymous\n")
             + f"repository-code: \"{github}\"\ndoi: \"{ZENODO_DOI}\"\n")
